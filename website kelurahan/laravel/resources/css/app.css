@@ -1,0 +1,264 @@
+@import 'tailwindcss';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../**/*.blade.php';
+@source '../**/*.js';
+
+@theme {
+    --font-sans: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
+    --color-kwamki-forest: #374151;
+    --color-kwamki-forest-dark: #1f2937;
+    --color-kwamki-ocean: #6b7280;
+    --color-kwamki-ocean-light: #9ca3af;
+    --color-kwamki-gold: #eab308;
+    --color-kwamki-gold-light: #facc15;
+    --color-kwamki-sand: #f3f4f6;
+    --color-kwamki-cream: #fafafa;
+    --color-kwamki-green: #166534;
+    --color-kwamki-green-light: #ecfdf5;
+    --color-kwamki-teal: #0f766e;
+    --color-kwamki-teal-light: #f0fdfa;
+    --color-whatsapp: #25D366;
+    --color-whatsapp-dark: #20BD5A;
+}
+
+@layer base {
+    html {
+        scroll-behavior: smooth;
+    }
+
+    body {
+        @apply bg-kwamki-cream text-gray-800 antialiased;
+    }
+}
+
+@layer components {
+    .btn-primary {
+        @apply inline-flex items-center justify-center rounded-lg bg-kwamki-gold px-5 py-2.5 text-sm font-semibold text-kwamki-forest-dark shadow-sm transition hover:bg-kwamki-gold-light focus:outline-none focus:ring-2 focus:ring-kwamki-forest focus:ring-offset-2;
+    }
+
+    .btn-secondary {
+        @apply inline-flex items-center justify-center rounded-lg border border-kwamki-forest bg-white px-5 py-2.5 text-sm font-semibold text-kwamki-forest transition hover:bg-kwamki-sand focus:outline-none focus:ring-2 focus:ring-kwamki-gold focus:ring-offset-2;
+    }
+
+    .section-title {
+        @apply text-2xl font-bold text-kwamki-forest-dark md:text-3xl;
+    }
+
+    .card {
+        @apply overflow-hidden rounded-xl border border-gray-100 bg-white shadow-sm transition hover:shadow-md;
+    }
+
+    .papua-pattern {
+        background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23374151' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+
+    .badge {
+        @apply inline-flex items-center rounded-full px-2.5 py-1 text-xs font-semibold ring-1 ring-inset;
+    }
+
+    .badge-success {
+        @apply inline-flex items-center rounded-full px-2.5 py-1 text-xs font-semibold ring-1 ring-inset bg-green-100 text-green-900 ring-green-200;
+    }
+
+    .badge-warning {
+        @apply inline-flex items-center rounded-full px-2.5 py-1 text-xs font-semibold ring-1 ring-inset bg-amber-100 text-amber-900 ring-amber-200;
+    }
+
+    .badge-info {
+        @apply inline-flex items-center rounded-full px-2.5 py-1 text-xs font-semibold ring-1 ring-inset bg-blue-100 text-blue-900 ring-blue-200;
+    }
+
+    .badge-danger {
+        @apply inline-flex items-center rounded-full px-2.5 py-1 text-xs font-semibold ring-1 ring-inset bg-red-100 text-red-900 ring-red-200;
+    }
+
+    .badge-neutral {
+        @apply inline-flex items-center rounded-full px-2.5 py-1 text-xs font-semibold ring-1 ring-inset bg-gray-100 text-gray-800 ring-gray-200;
+    }
+
+    .nav-login-btn {
+        @apply rounded-lg px-3 py-2 text-xs font-semibold text-gray-700 transition;
+    }
+
+    .nav-login-btn:hover,
+    .nav-login-btn:active {
+        @apply bg-kwamki-gold text-kwamki-forest-dark;
+    }
+
+    .nav-login-btn-mobile {
+        @apply mt-2 block rounded-lg px-3 py-2 text-center text-sm font-semibold text-gray-700 transition;
+    }
+
+    .nav-login-btn-mobile:hover,
+    .nav-login-btn-mobile:active {
+        @apply bg-kwamki-gold text-kwamki-forest-dark;
+    }
+
+    .section-title-accent {
+        @apply relative pb-3 text-kwamki-green;
+    }
+
+    .section-title-accent::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 3rem;
+        height: 3px;
+        border-radius: 2px;
+        background: linear-gradient(to right, var(--color-kwamki-gold), var(--color-kwamki-green));
+    }
+
+    .section-title-accent-center::after {
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .section-bg-warm {
+        @apply relative bg-gradient-to-b from-kwamki-green-light via-kwamki-cream to-kwamki-sand;
+    }
+
+    .section-bg-warm::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background:
+            radial-gradient(ellipse 80% 50% at 100% 0%, rgb(234 179 8 / 0.14), transparent),
+            radial-gradient(ellipse 60% 40% at 0% 100%, rgb(22 101 52 / 0.08), transparent);
+        pointer-events: none;
+    }
+
+    .section-bg-alt {
+        @apply relative bg-gradient-to-b from-kwamki-teal-light via-kwamki-cream to-kwamki-sand;
+    }
+
+    .section-bg-alt::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(ellipse 70% 45% at 0% 100%, rgb(15 118 110 / 0.10), transparent);
+        pointer-events: none;
+    }
+
+    .section-pattern::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23166534' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        pointer-events: none;
+    }
+
+    .card-accent {
+        @apply border-l-4 border-kwamki-green/25 duration-300 hover:border-l-kwamki-gold hover:bg-kwamki-green-light/30;
+    }
+
+    .icon-accent {
+        @apply flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-kwamki-green/15 text-kwamki-green ring-1 ring-kwamki-green/20 transition duration-300 group-hover:scale-105 group-hover:bg-kwamki-gold/25 group-hover:ring-kwamki-gold/40;
+    }
+
+    .link-teal {
+        @apply font-semibold text-kwamki-teal transition hover:text-kwamki-gold;
+    }
+
+    .announcement-card {
+        @apply border-l-4 border-kwamki-gold/60;
+    }
+
+    .announcement-date {
+        @apply inline-block rounded-full bg-kwamki-gold/15 px-2 py-0.5 text-xs font-medium text-kwamki-green;
+    }
+
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(24px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .hero-fade-in {
+        animation: fadeInUp 0.7s ease-out both;
+    }
+
+    .hero-delay-1 {
+        animation-delay: 0.1s;
+    }
+
+    .hero-delay-2 {
+        animation-delay: 0.25s;
+    }
+
+    .hero-delay-3 {
+        animation-delay: 0.4s;
+    }
+
+    .hero-delay-4 {
+        animation-delay: 0.55s;
+    }
+
+    .reveal {
+        @apply translate-y-6 opacity-0 transition duration-600 ease-out;
+        transition-property: opacity, transform;
+    }
+
+    .reveal.is-visible {
+        @apply translate-y-0 opacity-100;
+    }
+
+    .reveal-stagger > .reveal:nth-child(1) {
+        transition-delay: 0ms;
+    }
+
+    .reveal-stagger > .reveal:nth-child(2) {
+        transition-delay: 80ms;
+    }
+
+    .reveal-stagger > .reveal:nth-child(3) {
+        transition-delay: 160ms;
+    }
+
+    .reveal-stagger > .reveal:nth-child(4) {
+        transition-delay: 240ms;
+    }
+
+    .reveal-stagger > .reveal:nth-child(5) {
+        transition-delay: 320ms;
+    }
+
+    .reveal-stagger > .reveal:nth-child(6) {
+        transition-delay: 400ms;
+    }
+
+    .card-interactive {
+        @apply duration-300 hover:-translate-y-1 hover:border-kwamki-gold/40 hover:shadow-lg;
+    }
+
+    .page-content-enter {
+        animation: fadeInUp 0.7s ease-out both;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .hero-fade-in {
+        animation: none;
+        opacity: 1;
+        transform: none;
+    }
+
+    .page-content-enter {
+        animation: none;
+        opacity: 1;
+        transform: none;
+    }
+
+    .reveal {
+        opacity: 1;
+        transform: none;
+        transition: none;
+    }
+}
