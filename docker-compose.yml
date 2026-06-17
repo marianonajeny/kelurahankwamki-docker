@@ -1,0 +1,111 @@
+name: kelurahankwamki
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: container-laravel
+    restart: unless-stopped
+    labels:
+      - "name=Container Laravel"
+    environment:
+      APP_NAME: "Kelurahan Kwamki"
+      APP_ENV: production
+      APP_DEBUG: "false"
+      APP_URL: https://kelurahankwamki.my.id
+      LOG_CHANNEL: stderr
+      DB_CONNECTION: mysql
+      DB_HOST: container-mysql
+      DB_PORT: 3306
+      DB_DATABASE: kelurahan
+      DB_USERNAME: ${DB_USERNAME:-kelurahankwamki}
+      DB_PASSWORD: ${DB_PASSWORD:-kelurahankwamki}
+      CACHE_STORE: database
+      SESSION_DRIVER: database
+      QUEUE_CONNECTION: database
+      WHATSAPP_DRIVER: waha
+      WAHA_BASE_URL: http://waha:3000
+      WAHA_API_KEY: ${WAHA_API_KEY}
+      WAHA_SESSION: default
+    volumes:
+      - /home/ubuntu/web-kelurahan-kwamki:/var/www/html
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    networks:
+      - laravel_net
+
+  nginx:
+    image: nginx:1.27-alpine
+    container_name: container-laravel-nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d:ro
+      - ./certbot/www:/var/www/certbot:ro
+      - /etc/letsencrypt:/etc/letsencrypt:ro
+      - /home/ubuntu/web-kelurahan-kwamki:/var/www/html:ro
+    depends_on:
+      - app
+    networks:
+      - laravel_net
+
+  mysql:
+    image: mysql:9
+    container_name: container-mysql
+    restart: unless-stopped
+    labels:
+      - "name=Container MySQL"
+    environment:
+      MYSQL_DATABASE: kelurahan
+      MYSQL_USER: kelurahankwamki
+      MYSQL_PASSWORD: ${DB_PASSWORD:-kelurahankwamki}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root_secret_kwamki}
+    volumes:
+      - mysql_data:/var/lib/mysql
+    ports:
+      - "127.0.0.1:3306:3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-proot_secret_kwamki"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+      start_period: 30s
+    networks:
+      - laravel_net
+
+  redis:
+    image: redis:7-alpine
+    container_name: container-laravel-redis
+    restart: unless-stopped
+    networks:
+      - laravel_net
+
+  waha:
+    image: devlikeapro/waha:latest
+    container_name: container-whatsapp
+    restart: unless-stopped
+    labels:
+      - "name=Container WhatsApp"
+    env_file:
+      - /home/ubuntu/waha/.env
+    environment:
+      WAHA_BASE_URL: https://wa.kelurahankwamki.my.id
+      WHATSAPP_API_PORT: "3000"
+    volumes:
+      - /home/ubuntu/waha/sessions:/app/.sessions
+    shm_size: "2gb"
+    networks:
+      - laravel_net
+
+volumes:
+  mysql_data:
+
+networks:
+  laravel_net:
+    driver: bridge
